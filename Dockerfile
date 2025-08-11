@@ -1,4 +1,4 @@
-FROM node:20.17.0-alpine AS build
+FROM node:20.17.0-alpine as build
 
 # Set the working directory
 WORKDIR /usr/local/app
@@ -22,7 +22,8 @@ FROM nginx:latest
 # Copy the build output to replace the default nginx contents.
 RUN echo $(ls -1 /usr/local/app)
 COPY --from=build /usr/local/app/dist/keycloak-angular-example/browser /usr/share/nginx/html
-COPY ./nginx.conf  /etc/nginx/nginx.conf
+COPY ./nginx.conf  /etc/nginx/conf.d/default.conf
 RUN ls  /usr/share/nginx/html
-EXPOSE 8080:8080
+# Expose port 80
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
